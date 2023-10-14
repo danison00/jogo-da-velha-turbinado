@@ -1,0 +1,17 @@
+package com.dan.jogodavelhaturbinado2.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
+import java.util.List;
+import java.util.Optional;
+
+
+@Repository
+public interface BoardPlayerRepository extends JpaRepository<BoardPlayer, Long> {
+
+    Optional<BoardPlayer> findById(Long id);
+
+    
+}
