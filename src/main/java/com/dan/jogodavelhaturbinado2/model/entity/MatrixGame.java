@@ -33,6 +33,10 @@ public class MatrixGame {
     @OneToOne(mappedBy = "matrixGame")
     private BoardSecundary boardSecundary;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "matrixGame")
+    private BoardMain boardMain;
+
     String loc1 = "";
     String loc2 = "";
     String loc3 = "";

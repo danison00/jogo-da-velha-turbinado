@@ -29,10 +29,13 @@ public class BoardMain extends BoardAbstract {
     @JoinColumn(name = "board_player_id_fk")
     private BoardPlayer boardPlayer;
 
-   
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "matrixGame_id_fk")
+    private MatrixGame matrixGame;
 
-    public BoardMain(BoardPlayer boardPlayer) {
+    public BoardMain(BoardPlayer boardPlayer, MatrixGame matrixGame) {
         this.boardPlayer = boardPlayer;
+        this.matrixGame = matrixGame;
     }
 
     @Override

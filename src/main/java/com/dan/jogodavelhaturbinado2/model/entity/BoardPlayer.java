@@ -38,7 +38,9 @@ public class BoardPlayer implements Serializable {
 
     private String playerCurrent = "";
 
-    private Long boardCurrent;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "board_secundary_current_id_fk")
+    private BoardSecundary boardSecundaryCurrent;
 
   
 }

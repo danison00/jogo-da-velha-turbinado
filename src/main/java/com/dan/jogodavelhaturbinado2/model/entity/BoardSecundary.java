@@ -32,6 +32,7 @@ public class BoardSecundary extends BoardAbstract {
     @JoinColumn(name = "board_player_id_fk")
     private BoardPlayer boardPlayer;
 
+
     public BoardSecundary(MatrixGame matrixGame, BoardPlayer boardPlayer) {
         this.matrixGame = matrixGame;
         this.boardPlayer = boardPlayer;
