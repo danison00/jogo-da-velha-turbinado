@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("boardPlayer")
+@RequestMapping("game")
 public class BoardPlayerController {
 
     @Autowired
@@ -45,12 +45,15 @@ public class BoardPlayerController {
     }
 
     @PostMapping("/selectBoardToPlay")
-    public ResponseEntity<?> selectboardToPlay(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("l") Integer l,
-            @PathParam("c") Integer c) {
+    public ResponseEntity<?> selectboardToPlay(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
+            @PathParam("column") Integer column) {
 
-        var board = boardPlayerService.selectBoardToPlay(boardPlayerId, l, c);
+
+                System.out.println(boardPlayerId+" "+row+" "+column);
+        BoardPlayer board = boardPlayerService.selectBoardToPlay(boardPlayerId, row, column);
 
         return ResponseEntity.ok().body(board);
+        
     }
 
 
