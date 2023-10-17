@@ -47,7 +47,7 @@ public class MatrixGame {
     String loc8 = "";
     String loc9 = "";
 
-    @JsonIgnore
+    
     public List<List<String>> getAsList() {
 
         return Arrays.asList(

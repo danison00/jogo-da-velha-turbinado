@@ -1,14 +1,8 @@
 package com.dan.jogodavelhaturbinado2.model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,8 +23,14 @@ public abstract class BoardAbstract implements Serializable {
 
     private String win;
 
-    private int playedNumber;
+    private boolean finished = false;
 
+    private int numberOfMarked = 0;
+
+
+    public void incrementNumberOfMarked(){
+        this.numberOfMarked++;
+    }
 
     // @JsonIgnore
     // @Transient

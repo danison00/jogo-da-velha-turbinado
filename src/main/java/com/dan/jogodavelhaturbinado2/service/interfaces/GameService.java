@@ -1,9 +1,13 @@
 package com.dan.jogodavelhaturbinado2.service.interfaces;
 
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
+import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 
 public interface GameService {
     
-    BoardPlayer markX(Long boardPlayerId, int row, int column);
+    MatrixGame markX(Long boardPlayerId, int row, int column) throws Exception;
+
+    MatrixGame markO(Long boardPlayerId, Integer row, Integer column);
+
 
 }

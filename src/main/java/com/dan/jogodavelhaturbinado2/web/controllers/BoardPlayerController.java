@@ -15,10 +15,6 @@ import com.dan.jogodavelhaturbinado2.service.interfaces.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.websocket.server.PathParam;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,34 +40,39 @@ public class BoardPlayerController {
 
     @PostMapping("/newGame")
     public ResponseEntity<?> newBoardPlayer() {
-        
+
         return ResponseEntity.ok().body(boardPlayerService.newGame());
     }
 
     @PostMapping("/selectBoardToPlay")
-    public ResponseEntity<?> selectboardToPlay(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
+    public ResponseEntity<?> selectboardToPlay(@PathParam("boardPayerId") Long boardPlayerId,
+            @PathParam("row") Integer row,
             @PathParam("column") Integer column) {
 
-
-                System.out.println(boardPlayerId+" "+row+" "+column);
         BoardPlayer board = boardPlayerService.selectBoardToPlay(boardPlayerId, row, column);
 
         return ResponseEntity.ok().body(board);
-        
+
     }
 
     @PostMapping("/markX")
     public ResponseEntity<?> markX(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
-            @PathParam("column") Integer column) {
+            @PathParam("column") Integer column) throws Exception {
 
+        MatrixGame matrix = gameSer.markX(boardPlayerId, row, column);
+        return ResponseEntity.ok().body(matrix);
 
-                System.out.println(boardPlayerId+" "+row+" "+column);
-        BoardPlayer board = gameSer.markX(boardPlayerId, row, column);
-        return ResponseEntity.ok().body(board);
-        
     }
 
+    @PostMapping("/markO")
+    public ResponseEntity<?> markO(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
+            @PathParam("column") Integer column) {
 
+        System.out.println(boardPlayerId + " " + row + " " + column);
+        MatrixGame matrix = gameSer.markO(boardPlayerId, row, column);
+        return ResponseEntity.ok().body(matrix);
+
+    }
 
     @GetMapping("/test2")
     public ResponseEntity<?> testmatrix2() {
@@ -89,8 +90,8 @@ public class BoardPlayerController {
         // System.out.println(matrixAsList);
         // System.out.println(matrix.getAsList());
 
-         return ResponseEntity.ok().body(boardPlayer);
-        //return null;
+        return ResponseEntity.ok().body(boardPlayer);
+        // return null;
     }
 
 }

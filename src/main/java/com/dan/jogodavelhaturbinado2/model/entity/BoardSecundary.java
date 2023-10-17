@@ -33,6 +33,7 @@ public class BoardSecundary extends BoardAbstract {
     private BoardPlayer boardPlayer;
 
 
+
     public BoardSecundary(MatrixGame matrixGame, BoardPlayer boardPlayer) {
         this.matrixGame = matrixGame;
         this.boardPlayer = boardPlayer;

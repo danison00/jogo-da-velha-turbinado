@@ -65,6 +65,9 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
         BoardPlayer boardPlayer = findById(boardPlayerId);
 
+        if(boardPlayer.getBoardSecundaryCurrent() != null)
+            throw new RuntimeException("termine o jogo anterior");
+
         boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
 
         return this.boardPlayerRep.saveAndFlush(boardPlayer);      
