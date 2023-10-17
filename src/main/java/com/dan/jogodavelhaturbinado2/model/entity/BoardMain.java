@@ -2,26 +2,39 @@ package com.dan.jogodavelhaturbinado2.model.entity;
 
 import java.util.HashSet;
 import java.util.List;
-import jakarta.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-
-
-
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
 @Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class BoardMain extends BoardAbstract {
-
-
-
-    public BoardMain(){
-        super();
-    }
     
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "board_player_id_fk")
+    private BoardPlayer boardPlayer;
+
+   
+
+    public BoardMain(BoardPlayer boardPlayer) {
+        this.boardPlayer = boardPlayer;
+    }
+
     @Override
     public boolean verify(List<String> list) {
 
@@ -58,6 +71,5 @@ public class BoardMain extends BoardAbstract {
         }
         return false;
     }
-
 
 }

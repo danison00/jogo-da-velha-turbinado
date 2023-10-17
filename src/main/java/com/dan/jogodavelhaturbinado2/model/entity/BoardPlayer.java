@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.persistence.CascadeType;
@@ -16,8 +17,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table
 public class BoardPlayer implements Serializable {
@@ -25,27 +28,17 @@ public class BoardPlayer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "board_player_id_fk")
+  
+    
+    @OneToOne(mappedBy = "boardPlayer", cascade = CascadeType.ALL)
     private BoardMain main;
-
+   
     @OneToMany(mappedBy = "boardPlayer", cascade = CascadeType.ALL)
-    private List<ListOfBoardSecundary> matrixBoardSecundary;
+    private List<BoardSecundary> secundaries;
 
- 
+    private String playerCurrent = "";
 
-    public BoardPlayer() throws JsonProcessingException {
-        
-        this.main = new BoardMain();
-        this.matrixBoardSecundary = new ArrayList<>();
-        for (int i = 0; i < 3; i++) 
-            this.matrixBoardSecundary.add(new ListOfBoardSecundary());
-        
-       
-    }
-    public void newGame() throws JsonProcessingException{
-        this.main.newGame();
-    }
+    private Long boardCurrent;
 
+  
 }

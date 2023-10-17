@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,102 +31,96 @@ public abstract class BoardAbstract implements Serializable {
 
     private int playedNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "stringBoard_id_fk")
-    private StringBoard stringBoard;
 
-    @Transient
-    private List<List<String>> boardInMatrixString;
+    // @JsonIgnore
+    // @Transient
+    // private List<List<String>> boardInMatrixString = new ArrayList<>();
 
-    public BoardAbstract(){
-        try {
-            newGame();
-        } catch (JsonProcessingException e) {
-           
-        }
-    }
 
-    public void print() {
-        for (List<String> row : boardInMatrixString)
-            System.out.println(row.toString());
+    // public void print() {
+    //     for (List<String> row : boardInMatrixString)
+    //         System.out.println(row.toString());
 
-    }
+    // }
 
-    public void markX(int lin, int col) {
-        this.boardInMatrixString.get(lin).set(col, X);
+    // public void markX(int lin, int col) {
+    //     this.boardInMatrixString.get(lin).set(col, X);
 
-        this.playedNumber++;
-    }
+    //     this.playedNumber++;
+    // }
 
-    public void markO(int lin, int col) {
-        this.boardInMatrixString.get(lin).set(col, O);
-        this.playedNumber++;
-    }
+    // public void markO(int lin, int col) {
+    //     this.boardInMatrixString.get(lin).set(col, O);
+    //     this.playedNumber++;
+    // }
 
-    public void markTied(int lin, int col) {
+    // public void markTied(int lin, int col) {
 
-        this.boardInMatrixString.get(lin).set(col, TIED);
-        this.playedNumber++;
-    }
+    //     this.boardInMatrixString.get(lin).set(col, TIED);
+    //     this.playedNumber++;
+    // }
 
-    public boolean isFinished() {
+    // public boolean isFinished() {
 
-        if (this.playedNumber == 9) {
-            this.win = "is a tied";
-            return true;
-        }
+    //     if (this.playedNumber == 9) {
+    //         this.win = "is a tied";
+    //         return true;
+    //     }
 
-        if (verifyCol())
-            return true;
+    //     if (verifyCol())
+    //         return true;
 
-        if (verifyLin())
-            return true;
+    //     if (verifyLin())
+    //         return true;
 
-        if (verifyDia())
-            return true;
+    //     if (verifyDia())
+    //         return true;
 
-        return false;
+    //     return false;
 
-    }
+    // }
 
-    public boolean verifyLin() {
+    // public boolean verifyLin() {
 
-        for (List<String> row : boardInMatrixString)
-            if (verify(row))
-                return true;
+    //     for (List<String> row : boardInMatrixString)
+    //         if (verify(row))
+    //             return true;
 
-        return false;
+    //     return false;
 
-    }
+    // }
 
-    public boolean verifyCol() {
-        List<String> column;
+    // public boolean verifyCol() {
+    //     List<String> column;
 
-        for (int i = 0; i < 3; i++) {
+    //     for (int i = 0; i < 3; i++) {
 
-            column = List.of(boardInMatrixString.get(0).get(i), boardInMatrixString.get(1).get(i), boardInMatrixString.get(2).get(i));
+    //         column = List.of(boardInMatrixString.get(0).get(i), boardInMatrixString.get(1).get(i),
+    //                 boardInMatrixString.get(2).get(i));
 
-            if (verify(column))
-                return true;
+    //         if (verify(column))
+    //             return true;
 
-        }
-        return false;
-    }
+    //     }
+    //     return false;
+    // }
 
-    public boolean verifyDia() {
+    // public boolean verifyDia() {
 
-        List<String> diag;
+    //     List<String> diag;
 
-        diag = List.of(boardInMatrixString.get(0).get(2), boardInMatrixString.get(1).get(1), boardInMatrixString.get(2).get(0));
-        if (verify(diag))
-            return true;
+    //     diag = List.of(boardInMatrixString.get(0).get(2), boardInMatrixString.get(1).get(1),
+    //             boardInMatrixString.get(2).get(0));
+    //     if (verify(diag))
+    //         return true;
 
-        diag = List.of(boardInMatrixString.get(0).get(0), boardInMatrixString.get(1).get(1), boardInMatrixString.get(2).get(2));
-        if (verify(diag))
-            return true;
+    //     diag = List.of(boardInMatrixString.get(0).get(0), boardInMatrixString.get(1).get(1),
+    //             boardInMatrixString.get(2).get(2));
+    //     if (verify(diag))
+    //         return true;
 
-        return false;
-    }
+    //     return false;
+    // }
 
     public boolean verify(List<String> list) {
 
@@ -154,36 +149,71 @@ public abstract class BoardAbstract implements Serializable {
         return false;
     }
 
-    public boolean isNoMarked(int lin, int col) {
-        if (boardInMatrixString.get(lin).get(col).isEmpty())
-            return true;
+    // public boolean isNoMarked(int lin, int col) {
+    //     if (boardInMatrixString.get(lin).get(col).isEmpty())
+    //         return true;
 
-        return false;
+    //     return false;
 
-    }
+    // }
 
-    public List<List<String>> toList(String s) throws JsonMappingException, JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(s, new TypeReference<List<List<String>>>() {
-        });
+    // public List<List<String>> toList(String s) {
 
-    }
+    //     ObjectMapper objectMapper = new ObjectMapper();
+    //     try {
 
-    public String toString(List<List<String>> l) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(l);
-    }
-    public void newGame() throws JsonProcessingException{
-        this.boardInMatrixString = new ArrayList<>();
+    //         return objectMapper.readValue(s, new TypeReference<List<List<String>>>() {
+    //         });
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+    //     return null;
 
-        for (int i = 0; i < 3; i++) {
-            List<String> row = new ArrayList<>();
-            for (int j = 0; j < 3; j++)
-                row.add("");
-            boardInMatrixString.add(row);
-        }
-        this.stringBoard = new StringBoard(toString(boardInMatrixString));
+    // }
 
-        this.print();
-    }
+    // public void toList(StringBoard stringBoard) {
+    //     ObjectMapper objectMapper = new ObjectMapper();
+
+    //     try {
+    //         this.boardInMatrixString = objectMapper.readValue(stringBoard.getValue(),
+    //                 new TypeReference<List<List<String>>>() {
+    //                 });
+
+    //     } catch (Exception e) {
+    //     }
+
+    // }
+
+    // public String toString(List<List<String>> boardInMatrixString) {
+    //     ObjectMapper objectMapper = new ObjectMapper();
+    //     try {
+    //         return objectMapper.writeValueAsString(boardInMatrixString);
+    //     } catch (JsonProcessingException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
+
+    // public void toStrings(StringBoard stringBoard) {
+    //     ObjectMapper objectMapper = new ObjectMapper();
+    //     try {
+    //         stringBoard.setValue(objectMapper.writeValueAsString(this.boardInMatrixString));
+    //     } catch (JsonProcessingException e) {
+
+    //     }
+    // }
+
+    // public String newStringGame() {
+    //     this.boardInMatrixString = new ArrayList<>();
+
+    //     for (int i = 0; i < 3; i++) {
+    //         List<String> row = new ArrayList<>();
+    //         for (int j = 0; j < 3; j++)
+    //             row.add("");
+    //         this.boardInMatrixString.add(row);
+    //     }
+    //     return toString(this.boardInMatrixString);
+
+    //     //this.print();
+    // }
 }
