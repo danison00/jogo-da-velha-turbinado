@@ -10,7 +10,8 @@ import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 import com.dan.jogodavelhaturbinado2.repository.BoardMainRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
 import com.dan.jogodavelhaturbinado2.repository.MatrixGameRepository;
-import com.dan.jogodavelhaturbinado2.service.BoardPlayerService;
+import com.dan.jogodavelhaturbinado2.service.interfaces.BoardPlayerService;
+import com.dan.jogodavelhaturbinado2.service.interfaces.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.websocket.server.PathParam;
@@ -31,6 +32,9 @@ public class BoardPlayerController {
     private BoardPlayerService boardPlayerService;
 
     @Autowired
+    private GameService gameSer;
+
+    @Autowired
     private MatrixGameRepository matrixGameRep;
 
     @Autowired
@@ -38,7 +42,7 @@ public class BoardPlayerController {
     @Autowired
     private BoardSecundaryRepository boardSecundaryRep;
 
-    @GetMapping("/newGame")
+    @PostMapping("/newGame")
     public ResponseEntity<?> newBoardPlayer() {
         
         return ResponseEntity.ok().body(boardPlayerService.newGame());
@@ -52,6 +56,17 @@ public class BoardPlayerController {
                 System.out.println(boardPlayerId+" "+row+" "+column);
         BoardPlayer board = boardPlayerService.selectBoardToPlay(boardPlayerId, row, column);
 
+        return ResponseEntity.ok().body(board);
+        
+    }
+
+    @PostMapping("/markX")
+    public ResponseEntity<?> markX(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
+            @PathParam("column") Integer column) {
+
+
+                System.out.println(boardPlayerId+" "+row+" "+column);
+        BoardPlayer board = gameSer.markX(boardPlayerId, row, column);
         return ResponseEntity.ok().body(board);
         
     }
