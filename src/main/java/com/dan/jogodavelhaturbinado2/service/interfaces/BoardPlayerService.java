@@ -1,4 +1,4 @@
-package com.dan.jogodavelhaturbinado2.service;
+package com.dan.jogodavelhaturbinado2.service.interfaces;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface BoardPlayerService {
 
     void deleteById(Long id);
 
-    BoardPlayer selectBoardToPlay(Long boardPlayerId, int l, int col);
+    BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column);
 
     BoardPlayer newGame();
 

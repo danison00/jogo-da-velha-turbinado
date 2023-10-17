@@ -1,4 +1,4 @@
-package com.dan.jogodavelhaturbinado2.service;
+package com.dan.jogodavelhaturbinado2.service.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 import com.dan.jogodavelhaturbinado2.repository.BoardMainRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardPlayerRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
+import com.dan.jogodavelhaturbinado2.service.interfaces.BoardPlayerService;
 
 import jakarta.transaction.Transactional;
 
@@ -66,17 +67,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
         boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
 
-        return this.boardPlayerRep.saveAndFlush(boardPlayer);
-        // var boardPlayer = boardPlayerRep.findFullById(boardPlayerId)
-        // .orElseThrow(() -> new RuntimeException("id não encontrado!"));
-
-        // var board = boardPlayer.getMatrixBoardSecundary();
-        // System.out.println(boardPlayer);
-        // System.out.println(board);
-        // // boardPlayer.setBoardOfTheMoment(board.getId());
-
-        // // return board;
-       
+        return this.boardPlayerRep.saveAndFlush(boardPlayer);      
     }
 
     @Transactional
@@ -97,5 +88,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
         
         return this.save(boardPlayer);
     }
+
+ 
 
 }
