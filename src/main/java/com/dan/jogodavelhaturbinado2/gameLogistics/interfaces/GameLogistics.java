@@ -1,10 +1,11 @@
 package com.dan.jogodavelhaturbinado2.gameLogistics.interfaces;
 
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
+import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 
 public interface GameLogistics {
 
-    void markX(BoardPlayer boardPlayer, int lin, int col);
+    MatrixGame markX(MatrixGame matrix, int row, int column);
 
     void markO(BoardPlayer boardPlayer, int lin, int col);
 

@@ -2,15 +2,26 @@ package com.dan.jogodavelhaturbinado2.gameLogistics.implementss;
 
 import java.util.List;
 
+import org.hibernate.annotations.Comment;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.dan.jogodavelhaturbinado2.gameLogistics.interfaces.GameLogisticBoardMain;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
+import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 
+@Component
 public class GameLogisticsImp implements GameLogisticBoardMain{
 
 
     @Override
-    public void markO(BoardPlayer boardPlayer, int lin, int col) {
-        
+    public MatrixGame markX(MatrixGame matrix, int row, int column){
+
+        List<List<String>> list =  matrix.getAsList();
+        list.get(row).set(column, "X");
+        matrix.putInLocs(list);
+
+        return matrix;
       
     }
 
@@ -44,16 +55,17 @@ public class GameLogisticsImp implements GameLogisticBoardMain{
         throw new UnsupportedOperationException("Unimplemented method 'verifyLin'");
     }
 
-    @Override
-    public void markX(BoardPlayer boardPlayer, int lin, int col) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'markX'");
-    }
 
     @Override
     public boolean verify(List<String> list) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'verify'");
+    }
+
+    @Override
+    public void markO(BoardPlayer boardPlayer, int lin, int col) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'markO'");
     }
 
     
