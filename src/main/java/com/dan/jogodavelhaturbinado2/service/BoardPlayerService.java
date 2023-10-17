@@ -15,7 +15,7 @@ public interface BoardPlayerService {
 
     void deleteById(Long id);
 
-    BoardSecundary selectBoardToPlay(Long boardPlayerId, int l, int col);
+    BoardPlayer selectBoardToPlay(Long boardPlayerId, int l, int col);
 
     BoardPlayer newGame();
 

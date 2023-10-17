@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dan.jogodavelhaturbinado2.gameLogistics.interfaces.BoardPlayerGameLogistic;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardMain;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
@@ -27,6 +28,9 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
     @Autowired
     private BoardSecundaryRepository boardSecundaryRep;
+
+    @Autowired
+    private BoardPlayerGameLogistic boardPlayerGameLogistic;
 
 
 
@@ -56,8 +60,13 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     }
 
     @Override
-    public BoardSecundary selectBoardToPlay(Long boardPlayerId, int l, int col) {
+    public BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column) {
 
+        BoardPlayer boardPlayer = findById(boardPlayerId);
+
+        boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
+
+        return this.boardPlayerRep.saveAndFlush(boardPlayer);
         // var boardPlayer = boardPlayerRep.findFullById(boardPlayerId)
         // .orElseThrow(() -> new RuntimeException("id não encontrado!"));
 
@@ -67,7 +76,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
         // // boardPlayer.setBoardOfTheMoment(board.getId());
 
         // // return board;
-        return null;
+       
     }
 
     @Transactional
@@ -75,7 +84,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     public BoardPlayer newGame() {
 
         BoardPlayer boardPlayer = new BoardPlayer();
-        BoardMain main = new BoardMain(new BoardPlayer());
+        BoardMain main = new BoardMain(new BoardPlayer(), new MatrixGame());
         main.setBoardPlayer(boardPlayer);
 
         List<BoardSecundary> secundaries = new ArrayList<>();
