@@ -25,16 +25,14 @@ import lombok.ToString;
 public class BoardMain extends BoardAbstract {
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "board_player_id_fk")
+    @OneToOne(mappedBy = "main", cascade = CascadeType.ALL)
     private BoardPlayer boardPlayer;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "matrixGame_id_fk")
     private MatrixGame matrixGame;
 
-    public BoardMain(BoardPlayer boardPlayer, MatrixGame matrixGame) {
-        this.boardPlayer = boardPlayer;
+    public BoardMain(MatrixGame matrixGame) {
         this.matrixGame = matrixGame;
     }
 

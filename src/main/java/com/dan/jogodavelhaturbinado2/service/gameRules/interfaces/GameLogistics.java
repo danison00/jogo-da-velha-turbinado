@@ -1,11 +1,16 @@
-package com.dan.jogodavelhaturbinado2.gameLogistics.interfaces;
+package com.dan.jogodavelhaturbinado2.service.gameRules.interfaces;
 
 import java.util.List;
 
+import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
 import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 
 public interface GameLogistics {
+
+    BoardPlayer newGame();
+
+    BoardPlayer selectBoardToPlay(BoardPlayer boardPlayer, int row, int column) throws Exception;
 
     MatrixGame markX(MatrixGame matrix, int row, int column);
 
@@ -24,7 +29,5 @@ public interface GameLogistics {
     boolean verify(BoardSecundary board, List<String> list);
 
     BoardSecundary routine(BoardSecundary board);
-
-
 
 }

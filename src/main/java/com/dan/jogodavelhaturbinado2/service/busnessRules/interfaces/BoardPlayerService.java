@@ -1,9 +1,7 @@
-package com.dan.jogodavelhaturbinado2.service.interfaces;
+package com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces;
 
 import java.util.List;
-
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
-import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
 
 public interface BoardPlayerService {
 

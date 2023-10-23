@@ -1,4 +1,4 @@
-package com.dan.jogodavelhaturbinado2.service.interfaces;
+package com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces;
 
 import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 

@@ -29,8 +29,9 @@ public class BoardPlayer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
   
-    
-    @OneToOne(mappedBy = "boardPlayer", cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "board_main_id_fk")
     private BoardMain main;
    
     @OneToMany(mappedBy = "boardPlayer", cascade = CascadeType.ALL)

@@ -1,11 +1,19 @@
-package com.dan.jogodavelhaturbinado2.gameLogistics.implementss;
+package com.dan.jogodavelhaturbinado2.service.gameRules.implementss;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+
 import org.springframework.stereotype.Component;
-import com.dan.jogodavelhaturbinado2.gameLogistics.interfaces.GameLogistics;
+
+import com.dan.jogodavelhaturbinado2.model.entity.BoardMain;
+import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
 import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
+import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 
 @Component
 public class GameLogisticsImp implements GameLogistics {
@@ -44,8 +52,8 @@ public class GameLogisticsImp implements GameLogistics {
             return true;
         }
 
-        if (verifyCol(board)){
-            
+        if (verifyCol(board)) {
+
             return true;
         }
 
@@ -140,15 +148,62 @@ public class GameLogisticsImp implements GameLogistics {
 
     @Override
     public BoardSecundary routine(BoardSecundary board) {
-        
-        if(isFinished(board)){
+
+        if (isFinished(board)) {
             board.setFinished(true);
 
         }
 
         return board;
 
+    }
 
+    @Override
+    public BoardPlayer selectBoardToPlay(BoardPlayer boardPlayer, int row, int column) throws Exception {
+        var matrix = asMatrix(boardPlayer.getSecundaries());
+
+        if (boardPlayer.getBoardSecundaryCurrent() != null)
+            throw new RuntimeException("termine o jogo anterior");
+
+        if (matrix.get(row).get(column).isFinished())
+            throw new RuntimeException("Jogo já finalizado");
+
+        boardPlayer.setBoardSecundaryCurrent(matrix.get(row).get(column));
+        boardPlayer.setPlayerCurrent((new Random().nextInt(2) == 0) ? "X" : "O");
+
+        return boardPlayer;
+    }
+
+    private List<List<BoardSecundary>> asMatrix(List<BoardSecundary> list) {
+
+        Collections.sort(list, (a, b) -> {
+
+            return (int) a.getId().longValue() - (int) b.getId().longValue();
+
+        });
+
+        return Arrays.asList(
+                Arrays.asList(list.get(0), list.get(1), list.get(2)),
+                Arrays.asList(list.get(3), list.get(4), list.get(5)),
+                Arrays.asList(list.get(6), list.get(7), list.get(8)));
+
+    }
+
+    @Override
+    public BoardPlayer newGame() {
+
+        BoardPlayer boardPlayer = new BoardPlayer();
+        BoardMain main = new BoardMain(new MatrixGame());
+
+        List<BoardSecundary> secundaries = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            secundaries.add(new BoardSecundary(new MatrixGame(), boardPlayer));
+        }
+
+        boardPlayer.setMain(main);
+        boardPlayer.setSecundaries(secundaries);
+
+        return boardPlayer;
     }
 
 }

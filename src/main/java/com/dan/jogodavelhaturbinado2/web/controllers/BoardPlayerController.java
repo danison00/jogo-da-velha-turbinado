@@ -10,8 +10,8 @@ import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 import com.dan.jogodavelhaturbinado2.repository.BoardMainRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
 import com.dan.jogodavelhaturbinado2.repository.MatrixGameRepository;
-import com.dan.jogodavelhaturbinado2.service.interfaces.BoardPlayerService;
-import com.dan.jogodavelhaturbinado2.service.interfaces.GameService;
+import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.BoardPlayerService;
+import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.websocket.server.PathParam;

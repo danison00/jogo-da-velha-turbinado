@@ -1,16 +1,15 @@
-package com.dan.jogodavelhaturbinado2.service.implementations;
+package com.dan.jogodavelhaturbinado2.service.busnessRules.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dan.jogodavelhaturbinado2.gameLogistics.interfaces.GameLogistics;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
 import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
-import com.dan.jogodavelhaturbinado2.service.interfaces.BoardPlayerService;
-import com.dan.jogodavelhaturbinado2.service.interfaces.GameService;
-import com.dan.jogodavelhaturbinado2.service.interfaces.MatrixGameService;
+import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.BoardPlayerService;
+import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.GameService;
+import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 
 import jakarta.transaction.Transactional;
 
@@ -23,8 +22,6 @@ public class GameServiceImp implements GameService {
     @Autowired
     private GameLogistics gameLogistics;
 
-    @Autowired
-    private MatrixGameService matrixGameSer;
 
     @Autowired
     private BoardSecundaryRepository boardSecundaryRep;

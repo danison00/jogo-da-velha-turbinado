@@ -1,13 +1,9 @@
-package com.dan.jogodavelhaturbinado2.service.implementations;
+package com.dan.jogodavelhaturbinado2.service.busnessRules.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.dan.jogodavelhaturbinado2.gameLogistics.interfaces.BoardPlayerGameLogistic;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardMain;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
@@ -15,8 +11,8 @@ import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 import com.dan.jogodavelhaturbinado2.repository.BoardMainRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardPlayerRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
-import com.dan.jogodavelhaturbinado2.service.interfaces.BoardPlayerService;
-
+import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.BoardPlayerService;
+import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -32,7 +28,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     private BoardSecundaryRepository boardSecundaryRep;
 
     @Autowired
-    private BoardPlayerGameLogistic boardPlayerGameLogistic;
+    private GameLogistics gameLogistics;
 
     @Transactional
     @Override
@@ -63,13 +59,7 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     public BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column) throws Exception {
 
         BoardPlayer boardPlayer = findById(boardPlayerId);
-
-        if (boardPlayer.getBoardSecundaryCurrent() != null)
-            throw new RuntimeException("termine o jogo anterior");
-
-
-        boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
-        boardPlayer.setPlayerCurrent((new Random().nextInt(2) == 0) ? "X" : "O");
+        boardPlayer = this.gameLogistics.selectBoardToPlay(boardPlayer, row, column);
 
         return this.boardPlayerRep.saveAndFlush(boardPlayer);
     }
@@ -78,19 +68,9 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     @Override
     public BoardPlayer newGame() {
 
-        BoardPlayer boardPlayer = new BoardPlayer();
-        BoardMain main = new BoardMain(new BoardPlayer(), new MatrixGame());
-        main.setBoardPlayer(boardPlayer);
+        var boardPlayer = gameLogistics.newGame();
 
-        List<BoardSecundary> secundaries = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            secundaries.add(new BoardSecundary(new MatrixGame(), boardPlayer));
-        }
-
-        boardMainRep.saveAndFlush(main);
-        boardSecundaryRep.saveAll(secundaries);
-
-        return this.save(boardPlayer);
+        return boardPlayerRep.saveAndFlush(boardPlayer);  
     }
 
 }
