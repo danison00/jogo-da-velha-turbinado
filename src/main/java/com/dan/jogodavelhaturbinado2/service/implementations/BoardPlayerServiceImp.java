@@ -2,6 +2,7 @@ package com.dan.jogodavelhaturbinado2.service.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,6 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     @Autowired
     private BoardPlayerGameLogistic boardPlayerGameLogistic;
 
-
-
     @Transactional
     @Override
     public BoardPlayer save(BoardPlayer boardPlayer) {
@@ -61,16 +60,18 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
     }
 
     @Override
-    public BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column) {
+    public BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column) throws Exception {
 
         BoardPlayer boardPlayer = findById(boardPlayerId);
 
-        if(boardPlayer.getBoardSecundaryCurrent() != null)
+        if (boardPlayer.getBoardSecundaryCurrent() != null)
             throw new RuntimeException("termine o jogo anterior");
 
-        boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
 
-        return this.boardPlayerRep.saveAndFlush(boardPlayer);      
+        boardPlayer = this.boardPlayerGameLogistic.selectBoardToPlay(boardPlayer, row, column);
+        boardPlayer.setPlayerCurrent((new Random().nextInt(2) == 0) ? "X" : "O");
+
+        return this.boardPlayerRep.saveAndFlush(boardPlayer);
     }
 
     @Transactional
@@ -88,10 +89,8 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
         boardMainRep.saveAndFlush(main);
         boardSecundaryRep.saveAll(secundaries);
-        
+
         return this.save(boardPlayer);
     }
-
- 
 
 }

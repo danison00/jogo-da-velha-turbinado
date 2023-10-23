@@ -39,6 +39,9 @@ public class GameServiceImp implements GameService {
         if (boardPlayer.getBoardSecundaryCurrent() == null)
             throw new RuntimeException("selecione um jogo");
 
+        if (!boardPlayer.getPlayerCurrent().equals("X"))
+            throw new RuntimeException("Aguarde o jogador O jogar");
+
         MatrixGame matrixGame = boardSec.getMatrixGame();
 
         if (!matrixGame.getAsList().get(row).get(column).isEmpty())
@@ -48,6 +51,7 @@ public class GameServiceImp implements GameService {
         boardSec.incrementNumberOfMarked();
 
         boardSec = gameLogistics.routine(boardSec);
+        boardPlayer.setPlayerCurrent("O");
 
         if (boardSec.isFinished()) {
             boardPlayer.setBoardSecundaryCurrent(null);
@@ -69,6 +73,9 @@ public class GameServiceImp implements GameService {
         if (boardPlayer.getBoardSecundaryCurrent() == null)
             throw new RuntimeException("selecione um jogo");
 
+        if (!boardPlayer.getPlayerCurrent().equals("O"))
+            throw new RuntimeException("Aguarde o jogador X jogar");
+            
         MatrixGame matrixGame = boardSec.getMatrixGame();
 
         if (!matrixGame.getAsList().get(row).get(column).isEmpty())
@@ -78,6 +85,8 @@ public class GameServiceImp implements GameService {
         boardSec.incrementNumberOfMarked();
 
         boardSec = gameLogistics.routine(boardSec);
+
+        boardPlayer.setPlayerCurrent("X");
 
         if (boardSec.isFinished()) {
             boardPlayer.setBoardSecundaryCurrent(null);

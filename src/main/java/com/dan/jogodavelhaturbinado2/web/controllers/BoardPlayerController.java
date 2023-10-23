@@ -47,7 +47,7 @@ public class BoardPlayerController {
     @PostMapping("/selectBoardToPlay")
     public ResponseEntity<?> selectboardToPlay(@PathParam("boardPayerId") Long boardPlayerId,
             @PathParam("row") Integer row,
-            @PathParam("column") Integer column) {
+            @PathParam("column") Integer column) throws Exception {
 
         BoardPlayer board = boardPlayerService.selectBoardToPlay(boardPlayerId, row, column);
 

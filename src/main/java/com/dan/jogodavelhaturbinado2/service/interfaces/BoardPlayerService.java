@@ -15,7 +15,7 @@ public interface BoardPlayerService {
 
     void deleteById(Long id);
 
-    BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column);
+    BoardPlayer selectBoardToPlay(Long boardPlayerId, int row, int column) throws Exception;
 
     BoardPlayer newGame();
 

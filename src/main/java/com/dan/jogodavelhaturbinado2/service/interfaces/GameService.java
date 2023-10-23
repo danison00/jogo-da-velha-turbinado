@@ -1,6 +1,5 @@
 package com.dan.jogodavelhaturbinado2.service.interfaces;
 
-import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.MatrixGame;
 
 public interface GameService {

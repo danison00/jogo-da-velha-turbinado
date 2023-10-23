@@ -4,5 +4,5 @@ import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 
 public interface BoardPlayerGameLogistic {
     
-    BoardPlayer selectBoardToPlay(BoardPlayer boardPlayer, int row, int column);
+    BoardPlayer selectBoardToPlay(BoardPlayer boardPlayer, int row, int column) throws Exception;
 }
