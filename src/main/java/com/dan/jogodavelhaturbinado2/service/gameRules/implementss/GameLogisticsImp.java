@@ -19,23 +19,50 @@ import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 public class GameLogisticsImp implements GameLogistics {
 
     @Override
-    public MatrixGame markX(MatrixGame matrix, int row, int column) {
+    public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) throws Exception {
 
-        List<List<String>> list = matrix.getAsList();
+        verifyStatusOfGame(boardPlayer, row, column, "X");
+
+        BoardSecundary boardSec = boardPlayer.getBoardSecundaryCurrent();
+        MatrixGame matrix = boardPlayer.getBoardSecundaryCurrent().getMatrixGame();
+        List<List<String>> list = boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix();
         list.get(row).set(column, "X");
         matrix.putInLocs(list);
+        boardSec.incrementNumberOfMarked();
+        boardPlayer.setPlayerCurrent("O");
+        routine(boardPlayer);
 
-        return matrix;
+        return boardPlayer;
+
+    }
+
+    private void verifyStatusOfGame(BoardPlayer boardPlayer, int row, int column, String s) {
+
+        if (boardPlayer.getBoardSecundaryCurrent() == null)
+            throw new RuntimeException("selecione um jogo");
+
+        if (!boardPlayer.getPlayerCurrent().equals(s))
+            throw new RuntimeException("Aguarde o outro jogador");
+
+        if (!boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix().get(row).get(column).isEmpty())
+            throw new RuntimeException("Casa já marcada");
 
     }
 
     @Override
-    public MatrixGame markO(MatrixGame matrix, int row, int column) {
-        List<List<String>> list = matrix.getAsList();
+    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception {
+        verifyStatusOfGame(boardPlayer, row, column, "O");
+
+        BoardSecundary boardSec = boardPlayer.getBoardSecundaryCurrent();
+        MatrixGame matrix = boardPlayer.getBoardSecundaryCurrent().getMatrixGame();
+        List<List<String>> list = boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix();
         list.get(row).set(column, "O");
         matrix.putInLocs(list);
+        boardSec.incrementNumberOfMarked();
+        boardPlayer.setPlayerCurrent("X");
+        routine(boardPlayer);
 
-        return matrix;
+        return boardPlayer;
     }
 
     @Override
@@ -70,7 +97,7 @@ public class GameLogisticsImp implements GameLogistics {
     @Override
     public boolean verifyDia(BoardSecundary board) {
 
-        List<List<String>> matrix = board.getMatrixGame().getAsList();
+        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
 
         List<String> diag;
 
@@ -90,7 +117,7 @@ public class GameLogisticsImp implements GameLogistics {
     @Override
     public boolean verifyCol(BoardSecundary board) {
 
-        List<List<String>> matrix = board.getMatrixGame().getAsList();
+        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
         List<String> column;
 
         for (int i = 0; i < 3; i++) {
@@ -109,7 +136,7 @@ public class GameLogisticsImp implements GameLogistics {
     @Override
     public boolean verifyLin(BoardSecundary board) {
 
-        List<List<String>> matrix = board.getMatrixGame().getAsList();
+        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
 
         for (List<String> row : matrix)
             if (verify(board, row))
@@ -147,14 +174,15 @@ public class GameLogisticsImp implements GameLogistics {
     }
 
     @Override
-    public BoardSecundary routine(BoardSecundary board) {
+    public BoardPlayer routine(BoardPlayer boardPlayer) {
 
-        if (isFinished(board)) {
-            board.setFinished(true);
+        if (isFinished(boardPlayer.getBoardSecundaryCurrent())) {
+            boardPlayer.getBoardSecundaryCurrent().setFinished(true);
+            boardPlayer.setBoardSecundaryCurrent(null);
 
         }
 
-        return board;
+        return boardPlayer;
 
     }
 

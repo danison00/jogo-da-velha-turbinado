@@ -11,9 +11,7 @@ import com.dan.jogodavelhaturbinado2.repository.BoardMainRepository;
 import com.dan.jogodavelhaturbinado2.repository.BoardSecundaryRepository;
 import com.dan.jogodavelhaturbinado2.repository.MatrixGameRepository;
 import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.BoardPlayerService;
-import com.dan.jogodavelhaturbinado2.service.busnessRules.interfaces.GameService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +24,6 @@ public class BoardPlayerController {
 
     @Autowired
     private BoardPlayerService boardPlayerService;
-
-    @Autowired
-    private GameService gameSer;
 
     @Autowired
     private MatrixGameRepository matrixGameRep;
@@ -59,18 +54,33 @@ public class BoardPlayerController {
     public ResponseEntity<?> markX(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
             @PathParam("column") Integer column) throws Exception {
 
-        MatrixGame matrix = gameSer.markX(boardPlayerId, row, column);
-        return ResponseEntity.ok().body(matrix);
+
+
+
+        BoardPlayer boardPlayer = boardPlayerService.markX(boardPlayerId, row, column);
+
+
+
+
+        if (boardPlayer.getBoardSecundaryCurrent() == null)
+            return ResponseEntity.ok().body("Jogo finalizado! Você venceu!");
+
+
+
+        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame());
 
     }
 
     @PostMapping("/markO")
     public ResponseEntity<?> markO(@PathParam("boardPayerId") Long boardPlayerId, @PathParam("row") Integer row,
-            @PathParam("column") Integer column) {
+            @PathParam("column") Integer column) throws Exception {
 
-        System.out.println(boardPlayerId + " " + row + " " + column);
-        MatrixGame matrix = gameSer.markO(boardPlayerId, row, column);
-        return ResponseEntity.ok().body(matrix);
+        BoardPlayer boardPlayer = boardPlayerService.markO(boardPlayerId, row, column);
+
+        if (boardPlayer.getBoardSecundaryCurrent() == null)
+            return ResponseEntity.ok().body("Jogo finalizado! Você venceu!");
+
+        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame());
 
     }
 

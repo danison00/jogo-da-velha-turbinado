@@ -12,9 +12,9 @@ public interface GameLogistics {
 
     BoardPlayer selectBoardToPlay(BoardPlayer boardPlayer, int row, int column) throws Exception;
 
-    MatrixGame markX(MatrixGame matrix, int row, int column);
+    BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) throws Exception;
 
-    MatrixGame markO(MatrixGame matrix, int row, int column);
+    BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception;
 
     void markTied(MatrixGame matrix, int row, int column);
 
@@ -28,6 +28,6 @@ public interface GameLogistics {
 
     boolean verify(BoardSecundary board, List<String> list);
 
-    BoardSecundary routine(BoardSecundary board);
+    BoardPlayer routine(BoardPlayer boardPlayer);
 
 }

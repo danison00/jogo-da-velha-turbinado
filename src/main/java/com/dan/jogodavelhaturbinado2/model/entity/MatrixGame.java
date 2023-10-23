@@ -48,7 +48,7 @@ public class MatrixGame {
     String loc9 = "";
 
     
-    public List<List<String>> getAsList() {
+    public List<List<String>> getAsMatrix() {
 
         return Arrays.asList(
                 Arrays.asList(loc1, loc2, loc3),
