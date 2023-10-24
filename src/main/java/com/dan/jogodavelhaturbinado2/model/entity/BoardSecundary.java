@@ -9,7 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -32,7 +31,6 @@ public class BoardSecundary extends BoardAbstract {
     @JoinColumn(name = "board_player_id_fk")
     private BoardPlayer boardPlayer;
 
- 
     public BoardSecundary(MatrixGame matrixGame, BoardPlayer boardPlayer) {
         this.matrixGame = matrixGame;
         this.boardPlayer = boardPlayer;
@@ -60,6 +58,11 @@ public class BoardSecundary extends BoardAbstract {
             }
         }
         return false;
+    }
+
+    public void markX(int row, int column){
+        this.matrixGame.markX(row, column);
+        incrementNumberOfMarked();
     }
 
 }

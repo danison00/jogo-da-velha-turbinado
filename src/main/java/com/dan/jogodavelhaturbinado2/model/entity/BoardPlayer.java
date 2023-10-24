@@ -28,12 +28,11 @@ public class BoardPlayer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-  
-
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_main_id_fk")
     private BoardMain main;
-   
+
     @OneToMany(mappedBy = "boardPlayer", cascade = CascadeType.ALL)
     private List<BoardSecundary> secundaries;
 
@@ -43,10 +42,16 @@ public class BoardPlayer implements Serializable {
     @JoinColumn(name = "board_secundary_current_id_fk")
     private BoardSecundary boardSecundaryCurrent;
 
-    public List<List<String>> getMatrix(){
-       return this.boardSecundaryCurrent.getMatrixGame().getAsMatrix();
+    @JsonIgnore
+    public List<List<String>> getMatrix() {
+        return this.boardSecundaryCurrent.getMatrixGame().getAsMatrix();
     }
 
+    public void markX(int row, int column) {
 
-  
+        getBoardSecundaryCurrent().markX(row, column);
+        setPlayerCurrent("O");
+
+    }
+
 }

@@ -1,23 +1,15 @@
 package com.dan.jogodavelhaturbinado2.model.entity;
 
-import java.sql.Array;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -47,7 +39,9 @@ public class MatrixGame {
     String loc8 = "";
     String loc9 = "";
 
-    
+    @Transient
+    private List<List<String>> matrix;
+
     public List<List<String>> getAsMatrix() {
 
         return Arrays.asList(
@@ -71,6 +65,13 @@ public class MatrixGame {
         this.loc8 = matrix.get(2).get(1);
         this.loc9 = matrix.get(2).get(2);
 
+    }
+
+    public void markX(int row, int column) {
+
+        this.matrix = this.getAsMatrix();
+        matrix.get(row).set(column, "X");
+        this.putInLocs(matrix);
     }
 
 }

@@ -22,18 +22,10 @@ public class GameLogisticsImp implements GameLogistics {
     public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) throws Exception {
 
         verifyStatusOfGame(boardPlayer, row, column, "X");
-
-        BoardSecundary boardSec = boardPlayer.getBoardSecundaryCurrent();
-        MatrixGame matrix = boardPlayer.getBoardSecundaryCurrent().getMatrixGame();
-        List<List<String>> list = boardPlayer.getMatrix();
-        list.get(row).set(column, "X");
-        matrix.putInLocs(list);
-        boardSec.incrementNumberOfMarked();
-        boardPlayer.setPlayerCurrent("O");
+        boardPlayer.markX(row, column);
         routine(boardPlayer);
 
         return boardPlayer;
-
     }
 
     private void verifyStatusOfGame(BoardPlayer boardPlayer, int row, int column, String s) {
