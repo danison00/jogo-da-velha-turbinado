@@ -25,7 +25,7 @@ public class GameLogisticsImp implements GameLogistics {
 
         BoardSecundary boardSec = boardPlayer.getBoardSecundaryCurrent();
         MatrixGame matrix = boardPlayer.getBoardSecundaryCurrent().getMatrixGame();
-        List<List<String>> list = boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix();
+        List<List<String>> list = boardPlayer.getMatrix();
         list.get(row).set(column, "X");
         matrix.putInLocs(list);
         boardSec.incrementNumberOfMarked();

@@ -43,5 +43,10 @@ public class BoardPlayer implements Serializable {
     @JoinColumn(name = "board_secundary_current_id_fk")
     private BoardSecundary boardSecundaryCurrent;
 
+    public List<List<String>> getMatrix(){
+       return this.boardSecundaryCurrent.getMatrixGame().getAsMatrix();
+    }
+
+
   
 }
