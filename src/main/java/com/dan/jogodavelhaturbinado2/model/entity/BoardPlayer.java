@@ -1,12 +1,8 @@
 package com.dan.jogodavelhaturbinado2.model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
