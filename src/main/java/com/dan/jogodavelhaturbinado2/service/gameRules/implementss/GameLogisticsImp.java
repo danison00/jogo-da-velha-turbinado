@@ -28,6 +28,16 @@ public class GameLogisticsImp implements GameLogistics {
         return boardPlayer;
     }
 
+    @Override
+    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception {
+        
+        verifyStatusOfGame(boardPlayer, row, column, "O");
+        boardPlayer.markO(row, column);
+        routine(boardPlayer);
+
+        return boardPlayer;
+    }
+
     private void verifyStatusOfGame(BoardPlayer boardPlayer, int row, int column, String s) {
 
         if (boardPlayer.getBoardSecundaryCurrent() == null)
@@ -36,25 +46,9 @@ public class GameLogisticsImp implements GameLogistics {
         if (!boardPlayer.getPlayerCurrent().equals(s))
             throw new RuntimeException("Aguarde o outro jogador");
 
-        if (!boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix().get(row).get(column).isEmpty())
+        if (!boardPlayer.getBoardSecundaryCurrent().isEmpty(row, column))
             throw new RuntimeException("Casa já marcada");
 
-    }
-
-    @Override
-    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception {
-        verifyStatusOfGame(boardPlayer, row, column, "O");
-
-        BoardSecundary boardSec = boardPlayer.getBoardSecundaryCurrent();
-        MatrixGame matrix = boardPlayer.getBoardSecundaryCurrent().getMatrixGame();
-        List<List<String>> list = boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix();
-        list.get(row).set(column, "O");
-        matrix.putInLocs(list);
-        boardSec.incrementNumberOfMarked();
-        boardPlayer.setPlayerCurrent("X");
-        routine(boardPlayer);
-
-        return boardPlayer;
     }
 
     @Override

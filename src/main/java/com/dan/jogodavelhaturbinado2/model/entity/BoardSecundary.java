@@ -27,7 +27,7 @@ public class BoardSecundary extends BoardAbstract {
     private MatrixGame matrixGame;
 
     @JsonIgnore
-    @ManyToOne(cascade =  CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_player_id_fk")
     private BoardPlayer boardPlayer;
 
@@ -60,9 +60,18 @@ public class BoardSecundary extends BoardAbstract {
         return false;
     }
 
-    public void markX(int row, int column){
+    public void markX(int row, int column) {
         this.matrixGame.markX(row, column);
         incrementNumberOfMarked();
+    }
+
+    public void markO(int row, int column) {
+        this.matrixGame.markO(row, column);
+        incrementNumberOfMarked();
+    }
+
+    public boolean isEmpty(int row, int column) {
+        return this.matrixGame.isEmpty(row, column);
     }
 
 }

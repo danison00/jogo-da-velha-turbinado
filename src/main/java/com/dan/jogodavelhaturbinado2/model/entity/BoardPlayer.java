@@ -24,7 +24,7 @@ public class BoardPlayer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_main_id_fk")
     private BoardMain main;
@@ -47,6 +47,13 @@ public class BoardPlayer implements Serializable {
 
         getBoardSecundaryCurrent().markX(row, column);
         setPlayerCurrent("O");
+
+    }
+
+    public void markO(int row, int column) {
+
+        getBoardSecundaryCurrent().markO(row, column);
+        setPlayerCurrent("X");
 
     }
 

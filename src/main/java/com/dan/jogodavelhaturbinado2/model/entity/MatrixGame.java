@@ -74,4 +74,15 @@ public class MatrixGame {
         this.putInLocs(matrix);
     }
 
+    public void markO(int row, int column) {
+
+        this.matrix = this.getAsMatrix();
+        matrix.get(row).set(column, "O");
+        this.putInLocs(matrix);
+    }
+
+    public boolean isEmpty(int row, int column) {
+       return this.getAsMatrix().get(row).get(column).isEmpty();
+    }
+
 }

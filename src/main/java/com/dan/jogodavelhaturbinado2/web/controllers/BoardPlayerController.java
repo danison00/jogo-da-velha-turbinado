@@ -47,7 +47,7 @@ public class BoardPlayerController {
 
 
 
-        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame());
+        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix().toString());
 
     }
 
@@ -60,7 +60,7 @@ public class BoardPlayerController {
         if (boardPlayer.getBoardSecundaryCurrent() == null)
             return ResponseEntity.ok().body("Jogo finalizado! Você venceu!");
 
-        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame());
+        return ResponseEntity.ok().body(boardPlayer.getBoardSecundaryCurrent().getMatrixGame().getAsMatrix().toString());
 
     }
 
