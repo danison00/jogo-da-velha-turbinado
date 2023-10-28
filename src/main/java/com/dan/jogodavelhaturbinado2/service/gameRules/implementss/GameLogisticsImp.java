@@ -194,7 +194,7 @@ public class GameLogisticsImp implements GameLogistics {
 
     private List<List<BoardSecundary>> asMatrix(List<BoardSecundary> list) {
 
-        Collections.sort(list, (a, b) -> {
+        list.sort((a, b) -> {
 
             return (int) a.getId().longValue() - (int) b.getId().longValue();
 
