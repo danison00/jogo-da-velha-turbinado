@@ -25,12 +25,10 @@ public abstract class BoardAbstract implements Serializable {
 
     private boolean finished = false;
 
-    private int numberOfMarked = 0;
 
 
-    public void incrementNumberOfMarked(){
-        this.numberOfMarked++;
-    }
+
+    public abstract void incrementNumberOfMarked();
 
     // @JsonIgnore
     // @Transient
@@ -147,6 +145,10 @@ public abstract class BoardAbstract implements Serializable {
 
         }
         return false;
+    }
+
+    public int getNumberOfMarked() {
+        return 0;
     }
 
     // public boolean isNoMarked(int lin, int col) {

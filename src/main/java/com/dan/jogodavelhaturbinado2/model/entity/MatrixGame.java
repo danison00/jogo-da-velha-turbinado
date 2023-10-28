@@ -39,6 +39,8 @@ public class MatrixGame {
     String loc8 = "";
     String loc9 = "";
 
+    private int numberOfMarked = 0;
+
     @Transient
     private List<List<String>> matrix;
 
@@ -79,6 +81,9 @@ public class MatrixGame {
         this.matrix = this.getAsMatrix();
         matrix.get(row).set(column, "O");
         this.putInLocs(matrix);
+    }
+    public void incrementNumberOfMarked(){
+        this.numberOfMarked++;
     }
 
     public boolean isEmpty(int row, int column) {

@@ -37,6 +37,11 @@ public class BoardMain extends BoardAbstract {
     }
 
     @Override
+    public void incrementNumberOfMarked() {
+        this.matrixGame.incrementNumberOfMarked();
+    }
+
+    @Override
     public boolean verify(List<String> list) {
 
         for (int i = 0; i < 3; i++) {
@@ -71,6 +76,10 @@ public class BoardMain extends BoardAbstract {
 
         }
         return false;
+    }
+    @Override
+    public int getNumberOfMarked() {
+        return this.matrixGame.getNumberOfMarked();
     }
 
 }

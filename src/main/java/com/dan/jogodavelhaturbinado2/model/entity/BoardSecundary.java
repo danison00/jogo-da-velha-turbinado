@@ -65,10 +65,21 @@ public class BoardSecundary extends BoardAbstract {
         incrementNumberOfMarked();
     }
 
+    @Override
+    public int getNumberOfMarked() {
+        return this.matrixGame.getNumberOfMarked();
+    }
+
+    @Override
+    public void incrementNumberOfMarked() {
+        this.matrixGame.incrementNumberOfMarked();
+    }
+
     public void markO(int row, int column) {
         this.matrixGame.markO(row, column);
         incrementNumberOfMarked();
     }
+
 
     public boolean isEmpty(int row, int column) {
         return this.matrixGame.isEmpty(row, column);
