@@ -34,12 +34,16 @@ public class BoardPlayer implements Serializable {
 
     private String playerCurrent = "";
 
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "board_secundary_current_id_fk")
     private BoardSecundary boardSecundaryCurrent;
+    private int locBoardCurrentRow;
+    private int locBoardCurrentColumn;
 
     @JsonIgnore
     public List<List<String>> getMatrix() {
+
         return this.boardSecundaryCurrent.getMatrixGame().getAsMatrix();
     }
 
@@ -55,6 +59,10 @@ public class BoardPlayer implements Serializable {
         getBoardSecundaryCurrent().markO(row, column);
         setPlayerCurrent("X");
 
+    }
+    public void setLocXAndYCurrent(int row, int column){
+        this.locBoardCurrentRow = row;
+        this.locBoardCurrentColumn = column;
     }
 
 }

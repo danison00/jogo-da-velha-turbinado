@@ -73,9 +73,9 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
         boardPlayer = gameLogistics.markX(boardPlayer, row, column);
 
-        if (boardPlayer.getBoardSecundaryCurrent() != null)
-            boardSecundaryRep.save(boardPlayer.getBoardSecundaryCurrent());
-        else
+//        if (boardPlayer.getBoardSecundaryCurrent() != null)
+//            boardSecundaryRep.save(boardPlayer.getBoardSecundaryCurrent());
+//        else
             this.save(boardPlayer);
 
         return boardPlayer;
@@ -89,9 +89,9 @@ public class BoardPlayerServiceImp implements BoardPlayerService {
 
         boardPlayer = gameLogistics.markO(boardPlayer, row, column);
 
-        if (boardPlayer.getBoardSecundaryCurrent() != null)
-            boardSecundaryRep.save(boardPlayer.getBoardSecundaryCurrent());
-        else
+//        if (boardPlayer.getBoardSecundaryCurrent() != null)
+//            boardSecundaryRep.save(boardPlayer.getBoardSecundaryCurrent());
+//        else
             this.save(boardPlayer);
 
         return boardPlayer;

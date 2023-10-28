@@ -162,6 +162,13 @@ public class GameLogisticsImp implements GameLogistics {
 
         if (isFinished(boardPlayer.getBoardSecundaryCurrent())) {
             boardPlayer.getBoardSecundaryCurrent().setFinished(true);
+            int row = boardPlayer.getLocBoardCurrentRow();
+            int column = boardPlayer.getLocBoardCurrentColumn();
+            String win =boardPlayer.getBoardSecundaryCurrent().getWin();
+            if (win.equals("X"))
+               boardPlayer.getMain().getMatrixGame().markX(row, column);
+            else if(win.equals("O"))
+                boardPlayer.getMain().getMatrixGame().markO(row, column);
             boardPlayer.setBoardSecundaryCurrent(null);
             verifyBoardMain(boardPlayer);
         }
@@ -172,7 +179,7 @@ public class GameLogisticsImp implements GameLogistics {
 
     private void verifyBoardMain(BoardPlayer boardPlayer) {
 
-        System.out.println("aaa");
+
 
 
     }
@@ -187,6 +194,7 @@ public class GameLogisticsImp implements GameLogistics {
         if (matrix.get(row).get(column).isFinished())
             throw new RuntimeException("Jogo já finalizado");
 
+        boardPlayer.setLocXAndYCurrent(row, column);
         boardPlayer.setBoardSecundaryCurrent(matrix.get(row).get(column));
         boardPlayer.setPlayerCurrent((new Random().nextInt(2) == 0) ? "X" : "O");
 
