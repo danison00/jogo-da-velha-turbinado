@@ -27,7 +27,7 @@ public class GameLogisticsImp implements GameLogistics {
     }
 
     @Override
-    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception {
+    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column){
         
         verifyStatusOfGame(boardPlayer, row, column, "O");
         boardPlayer.markO(row, column);
