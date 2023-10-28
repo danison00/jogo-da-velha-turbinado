@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-
 import org.springframework.stereotype.Component;
-
 import com.dan.jogodavelhaturbinado2.model.entity.BoardMain;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardSecundary;
@@ -19,7 +17,7 @@ import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 public class GameLogisticsImp implements GameLogistics {
 
     @Override
-    public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) throws Exception {
+    public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) {
 
         verifyStatusOfGame(boardPlayer, row, column, "X");
         boardPlayer.markX(row, column);
@@ -165,10 +163,16 @@ public class GameLogisticsImp implements GameLogistics {
         if (isFinished(boardPlayer.getBoardSecundaryCurrent())) {
             boardPlayer.getBoardSecundaryCurrent().setFinished(true);
             boardPlayer.setBoardSecundaryCurrent(null);
-
+            verifyBoardMain(boardPlayer);
         }
 
         return boardPlayer;
+
+    }
+
+    private void verifyBoardMain(BoardPlayer boardPlayer) {
+
+
 
     }
 
