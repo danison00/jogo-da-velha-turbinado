@@ -172,6 +172,7 @@ public class GameLogisticsImp implements GameLogistics {
 
     private void verifyBoardMain(BoardPlayer boardPlayer) {
 
+        System.out.println("aaa");
 
 
     }
