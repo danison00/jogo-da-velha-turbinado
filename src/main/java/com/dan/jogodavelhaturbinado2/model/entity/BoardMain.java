@@ -23,26 +23,30 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class BoardMain extends BoardAbstract {
-    
+
+
     @JsonIgnore
-    @OneToOne(mappedBy = "main", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "main")
     private BoardPlayer boardPlayer;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "matrixGame_id_fk")
-    private MatrixGame matrixGame;
-
     public BoardMain(MatrixGame matrixGame) {
-        this.matrixGame = matrixGame;
+        super(matrixGame);
+
     }
 
-    @Override
-    public void incrementNumberOfMarked() {
-        this.matrixGame.incrementNumberOfMarked();
-    }
+
+//
+//    @Override
+//    public void markX(int row, int column) {
+//        this.matrixGame.markX(row, column);
+//    }
+//
+//    @Override
+//    public void markO(int row, int column) {
+//        this.matrixGame.markO(row, column);
+//    }
 
     @Override
-    public boolean verify(List<String> list) {
+    public String verify(List<String> list) {
 
         for (int i = 0; i < 3; i++) {
 
@@ -52,12 +56,11 @@ public class BoardMain extends BoardAbstract {
                 if (listSet.size() == 1) {
                     if (listSet.contains(X)) {
                         setWin(X);
-                        ;
-                        return true;
+                        return X;
                     }
                     if (listSet.contains(O)) {
                         setWin(O);
-                        return true;
+                        return O;
                     }
 
                 }
@@ -65,21 +68,38 @@ public class BoardMain extends BoardAbstract {
                 if (listSet.size() == 2) {
                     if (listSet.contains(X) && listSet.contains(TIED)) {
                         setWin(X);
-                        return true;
+                        return X;
                     }
                     if (listSet.contains(O) && listSet.contains(TIED)) {
                         setWin(O);
-                        return true;
+                        return X;
                     }
                 }
             }
 
         }
-        return false;
+        return "Tied";
     }
+
     @Override
-    public int getNumberOfMarked() {
-        return this.matrixGame.getNumberOfMarked();
+    public boolean isFinished() {
+
+//        if (this.matrixGame.getNumberOfMarked() == 9) {
+//            super.win = "is a tied";
+//            return true;
+//
+//        }
+//        if (verifyCol())
+//
+//            return true;
+//        if (verifyLin())
+//
+//            return true;
+//        if (verifyDia())
+//
+//            return true;
+
+        return false;
     }
 
 }

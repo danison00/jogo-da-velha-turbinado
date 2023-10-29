@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardMain;
 import com.dan.jogodavelhaturbinado2.model.entity.BoardPlayer;
@@ -17,9 +19,9 @@ import com.dan.jogodavelhaturbinado2.service.gameRules.interfaces.GameLogistics;
 public class GameLogisticsImp implements GameLogistics {
 
     @Override
-    public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) {
+    public BoardPlayer markX(BoardPlayer boardPlayer, int row, int column) throws Exception {
 
-        verifyStatusOfGame(boardPlayer, row, column, "X");
+        verifyStatusOfGame(boardPlayer, "X");
         boardPlayer.markX(row, column);
         routine(boardPlayer);
 
@@ -27,16 +29,16 @@ public class GameLogisticsImp implements GameLogistics {
     }
 
     @Override
-    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column){
+    public BoardPlayer markO(BoardPlayer boardPlayer, int row, int column) throws Exception {
         
-        verifyStatusOfGame(boardPlayer, row, column, "O");
+        verifyStatusOfGame(boardPlayer, "O");
         boardPlayer.markO(row, column);
         routine(boardPlayer);
 
         return boardPlayer;
     }
 
-    private void verifyStatusOfGame(BoardPlayer boardPlayer, int row, int column, String s) {
+    private void verifyStatusOfGame(BoardPlayer boardPlayer, String s) {
 
         if (boardPlayer.getBoardSecundaryCurrent() == null)
             throw new RuntimeException("selecione um jogo");
@@ -44,8 +46,6 @@ public class GameLogisticsImp implements GameLogistics {
         if (!boardPlayer.getPlayerCurrent().equals(s))
             throw new RuntimeException("Aguarde o outro jogador");
 
-        if (!boardPlayer.getBoardSecundaryCurrent().isEmpty(row, column))
-            throw new RuntimeException("Casa já marcada");
 
     }
 
@@ -58,119 +58,25 @@ public class GameLogisticsImp implements GameLogistics {
     @Override
     public boolean isFinished(BoardSecundary board) {
 
-        if (board.getNumberOfMarked() == 9) {
-            board.setWin("Tied");
-            return true;
-        }
-
-        if (verifyCol(board)) {
-
-            return true;
-        }
-
-        if (verifyLin(board))
-            return true;
-
-        if (verifyDia(board))
-            return true;
-
         return false;
 
     }
 
     @Override
-    public boolean verifyDia(BoardSecundary board) {
+    public BoardPlayer routine(BoardPlayer boardPlayer) throws Exception {
 
-        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
-
-        List<String> diag;
-
-        diag = List.of(matrix.get(0).get(2), matrix.get(1).get(1),
-                matrix.get(2).get(0));
-        if (verify(board, diag))
-            return true;
-
-        diag = List.of(matrix.get(0).get(0), matrix.get(1).get(1),
-                matrix.get(2).get(2));
-        if (verify(board, diag))
-            return true;
-
-        return false;
-    }
-
-    @Override
-    public boolean verifyCol(BoardSecundary board) {
-
-        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
-        List<String> column;
-
-        for (int i = 0; i < 3; i++) {
-
-            column = List.of(matrix.get(0).get(i), matrix.get(1).get(i),
-                    matrix.get(2).get(i));
-
-            if (verify(board, column))
-                return true;
-
-        }
-        return false;
-
-    }
-
-    @Override
-    public boolean verifyLin(BoardSecundary board) {
-
-        List<List<String>> matrix = board.getMatrixGame().getAsMatrix();
-
-        for (List<String> row : matrix)
-            if (verify(board, row))
-                return true;
-
-        return false;
-    }
-
-    @Override
-    public boolean verify(BoardSecundary board, List<String> list) {
-
-        HashSet<String> listSet;
-
-        for (int i = 0; i < 3; i++) {
-
-            listSet = new HashSet<>(list);
-
-            if (list.size() == 3 && !listSet.contains("")) {
-                if (listSet.size() == 1) {
-                    if (listSet.contains("X")) {
-                        board.setWin("X");
-                        return true;
-                    }
-                    if (listSet.contains("O")) {
-                        board.setWin("O");
-                        return true;
-                    }
-
-                }
-
-            }
-
-        }
-        return false;
-    }
-
-    @Override
-    public BoardPlayer routine(BoardPlayer boardPlayer) {
-
-        if (isFinished(boardPlayer.getBoardSecundaryCurrent())) {
-            boardPlayer.getBoardSecundaryCurrent().setFinished(true);
+        if(boardPlayer.getBoardSecundaryCurrent().isFinished()){
             int row = boardPlayer.getLocBoardCurrentRow();
             int column = boardPlayer.getLocBoardCurrentColumn();
-            String win =boardPlayer.getBoardSecundaryCurrent().getWin();
+            String win = boardPlayer.getBoardSecundaryCurrent().getWin();
+
             if (win.equals("X"))
-               boardPlayer.getMain().getMatrixGame().markX(row, column);
-            else if(win.equals("O"))
-                boardPlayer.getMain().getMatrixGame().markO(row, column);
+                boardPlayer.markXInMain(row, column);
+            if (win.equals("O"))
+                boardPlayer.markOInMain(row, column);
             boardPlayer.setBoardSecundaryCurrent(null);
             verifyBoardMain(boardPlayer);
+
         }
 
         return boardPlayer;
@@ -216,17 +122,18 @@ public class GameLogisticsImp implements GameLogistics {
 
     }
 
+    @Transactional
     @Override
     public BoardPlayer newGame() {
 
-        BoardPlayer boardPlayer = new BoardPlayer();
         BoardMain main = new BoardMain(new MatrixGame());
+        BoardPlayer boardPlayer = new BoardPlayer();
 
         List<BoardSecundary> secundaries = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             secundaries.add(new BoardSecundary(new MatrixGame(), boardPlayer));
         }
-
+       // main.setBoardPlayer(boardPlayer);
         boardPlayer.setMain(main);
         boardPlayer.setSecundaries(secundaries);
 

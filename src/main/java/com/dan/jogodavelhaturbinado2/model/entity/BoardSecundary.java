@@ -22,9 +22,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class BoardSecundary extends BoardAbstract {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "matrixGame_id_fk")
-    private MatrixGame matrixGame;
+
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
@@ -32,12 +30,12 @@ public class BoardSecundary extends BoardAbstract {
     private BoardPlayer boardPlayer;
 
     public BoardSecundary(MatrixGame matrixGame, BoardPlayer boardPlayer) {
-        this.matrixGame = matrixGame;
+        super(matrixGame);
         this.boardPlayer = boardPlayer;
     }
 
     @Override
-    public boolean verify(List<String> list) {
+    public String verify(List<String> list) {
         HashSet<String> listSet;
 
         for (int i = 0; i < 3; i++) {
@@ -48,41 +46,37 @@ public class BoardSecundary extends BoardAbstract {
                 if (listSet.size() == 1) {
                     if (listSet.contains(X)) {
                         setWin(X);
-                        return true;
+                        return X;
                     }
                     if (listSet.contains(O)) {
                         setWin(O);
-                        return true;
+                        return O;
                     }
                 }
             }
         }
-        return false;
-    }
-
-    public void markX(int row, int column) {
-        this.matrixGame.markX(row, column);
-        incrementNumberOfMarked();
-    }
-
-    @Override
-    public int getNumberOfMarked() {
-        return this.matrixGame.getNumberOfMarked();
-    }
-
-    @Override
-    public void incrementNumberOfMarked() {
-        this.matrixGame.incrementNumberOfMarked();
-    }
-
-    public void markO(int row, int column) {
-        this.matrixGame.markO(row, column);
-        incrementNumberOfMarked();
+        return "";
     }
 
 
-    public boolean isEmpty(int row, int column) {
-        return this.matrixGame.isEmpty(row, column);
-    }
+
+
+
+
+
+//    @Override
+//    public void incrementNumberOfMarked() {
+//        this.matrixGame.incrementNumberOfMarked();
+//    }
+//
+//    public void markO(int row, int column) {
+//        this.matrixGame.markO(row, column);
+//        incrementNumberOfMarked();
+//    }
+
+
+  // public boolean isEmpty(int row, int column) {
+//        return this.matrixGame.isEmpty(row, column);
+//    }
 
 }

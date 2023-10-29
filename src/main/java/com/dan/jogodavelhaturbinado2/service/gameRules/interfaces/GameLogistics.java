@@ -20,14 +20,7 @@ public interface GameLogistics {
 
     boolean isFinished(BoardSecundary board);
 
-    boolean verifyDia(BoardSecundary board);
 
-    boolean verifyCol(BoardSecundary board);
-
-    boolean verifyLin(BoardSecundary board);
-
-    boolean verify(BoardSecundary board, List<String> list);
-
-    BoardPlayer routine(BoardPlayer boardPlayer);
+    BoardPlayer routine(BoardPlayer boardPlayer) throws Exception;
 
 }

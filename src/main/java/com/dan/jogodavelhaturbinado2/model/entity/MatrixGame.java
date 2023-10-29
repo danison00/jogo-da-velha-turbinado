@@ -2,6 +2,7 @@ package com.dan.jogodavelhaturbinado2.model.entity;
 
 import java.util.Arrays;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ public class MatrixGame {
     @Transient
     private List<List<String>> matrix;
 
-    public List<List<String>> getAsMatrix() {
+    public List<List<String>> getMatrix() {
 
         return Arrays.asList(
                 Arrays.asList(loc1, loc2, loc3),
@@ -53,7 +54,7 @@ public class MatrixGame {
 
     }
 
-    public void putInLocs(List<List<String>> matrix) {
+    private void putInLocs(List<List<String>> matrix) {
 
         this.loc1 = matrix.get(0).get(0);
         this.loc2 = matrix.get(0).get(1);
@@ -69,25 +70,30 @@ public class MatrixGame {
 
     }
 
-    public void markX(int row, int column) {
-
-        this.matrix = this.getAsMatrix();
+    public void markX(int row, int column) throws Exception{
+        if (isNoEmpty(row, column))
+            throw new RuntimeException("Casa já marcada");
+        this.matrix = this.getMatrix();
         matrix.get(row).set(column, "X");
         this.putInLocs(matrix);
     }
 
-    public void markO(int row, int column) {
-
-        this.matrix = this.getAsMatrix();
+    public void markO(int row, int column) throws Exception {
+        if (isNoEmpty(row, column))
+            throw new RuntimeException("Casa já marcada");
+        this.matrix = this.getMatrix();
         matrix.get(row).set(column, "O");
+        this.incrementNumberOfMarked();
         this.putInLocs(matrix);
     }
-    public void incrementNumberOfMarked(){
+
+    public void incrementNumberOfMarked() {
         this.numberOfMarked++;
     }
 
-    public boolean isEmpty(int row, int column) {
-       return this.getAsMatrix().get(row).get(column).isEmpty();
+    public boolean isNoEmpty(int row, int column) {
+        return !this.getMatrix().get(row).get(column).isEmpty();
     }
+
 
 }

@@ -41,28 +41,50 @@ public class BoardPlayer implements Serializable {
     private int locBoardCurrentRow;
     private int locBoardCurrentColumn;
 
+    public BoardPlayer(BoardMain main) {
+        this.main = main;
+    }
+
     @JsonIgnore
     public List<List<String>> getMatrix() {
 
-        return this.boardSecundaryCurrent.getMatrixGame().getAsMatrix();
+        return this.boardSecundaryCurrent.getMatrixGame().getMatrix();
     }
 
-    public void markX(int row, int column) {
+    public void markX(int row, int column) throws Exception {
 
         getBoardSecundaryCurrent().markX(row, column);
+        setPlayerCurrent("O");
+        routine();
+
+    }
+
+    public void markO(int row, int column) throws Exception {
+
+        getBoardSecundaryCurrent().markO(row, column);
+        setPlayerCurrent("X");
+        routine();
+    }
+
+    public void markXInMain(int row, int column) throws Exception {
+
+        main.markX(row, column);
         setPlayerCurrent("O");
 
     }
 
-    public void markO(int row, int column) {
+    public void markOInMain(int row, int column) throws Exception {
 
-        getBoardSecundaryCurrent().markO(row, column);
+        main.markO(row, column);
         setPlayerCurrent("X");
 
     }
     public void setLocXAndYCurrent(int row, int column){
         this.locBoardCurrentRow = row;
         this.locBoardCurrentColumn = column;
+    }
+    public void routine(){
+        this.boardSecundaryCurrent.routine();
     }
 
 }
